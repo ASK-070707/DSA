@@ -1,62 +1,92 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<math.h>
-#include<ctype.h>
-#define SIZE 20
-struct stack
-{
-    int top;
-    float data[SIZE];
+struct node{
+int data;
+struct node*left;
+struct node*right;
 };
-typedef struct stack STACK;
-void push(STACK *s,float item)
+typedef struct node * NODE;
+void preorder(NODE root)
 {
-    s->data[++sss(s->top)]=item;
+    if(root!=NULL)
+    {
+        printf("%d\t",root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+void inorder(NODE root)
+{
 
-}
-float pop(STACK *s)
-{
-    return s->data[(s->top)--];
-}
-float compute(float oper1,char symbol,float oper2)
-{
-    switch(symbol)
+    if(root!=NULL)
     {
-        case '+':return oper1+oper2;
-        case '-':return oper1-oper2;
-        case '*':return oper1*oper2;
-        case '/':return oper1/oper2;
-        case '^':return pow(oper1,oper2);
+        inorder(root->left);
+        printf("%d\t",root->data);
     }
 }
-float Eval_postfix(STACK *s,char postfix[15])
+void postorder(NODE root)
 {
-    char symbol;
-    int i;
-    float oper1,oper2,res;
-    for(i=0;postfix[i]!='\0';i++)
+    if(root!=NULL)
     {
-        symbol=postfix[i];
-        if (isdigit(symbol))
-            push(s,symbol-'0');
-        else{
-            oper2=pop(s);
-            oper1=pop(s);
-            res=compute(oper1,symbol,oper2);
-            push(s,res);
-        }
+    postorder(root->left);
+    postorder(root->right);
+    printf("%d\t",root->data);
     }
-    return pop(s);
+}
+NODE create BST (NODE root,int item)
+{
+    NODE temp,prev,cur;
+    temp=(NODE)malloc(size of(dtruct node));
+    temp->data=item;
+    temp->left=NULL;
+    temp->right=NULL;
+    if(root==NULL)
+        return temp;
+    prev=NULL;
+    cur=root;
+    while(cur!=NULL)
+    {
+        prev=cur;
+        if(item<char->data)
+            cur=cur->left;
+        elsecur=cur->right;
+    }
+    if(item<prev->data)
+        prev->left=temp;
+    elseprev->right=temp;
+    retrun root;
 }
 int main()
 {
-    char postfix[15];
-    STACK s;
-    float res;
-    s.top=-1;
-    printf("\n read postfix expression\n");
-    scanf("%s",postfix);
-    res=Eval_postfix(&s,postfix);
-    printf("\n the final answer is %f",res);
-    return 0;
+    NODE root=NULL;
+    int ch,item;
+    for(;;)
+    {
+        printf("\n1.insert");
+        printf("\n2.preorder");
+        printf("\n3.postorder");
+        printf("\n4.inorder");
+        printf("\n5.exit");
+        printf("\n Read choice:);
+               scanf("%d",&ch);
+               switch(ch)
+               {
+                   case 1 : printf("\nRead element to be inserted");
+                   scanf("%d",&item);
+                   root=create BST(root,item);
+                   break;
+                   case 2 : printf("\n preorder traversal is:");
+                   preorder(root);
+                   break;
+                   case 3 : printf("\n inorder traversal is:");
+                   inorder(root);
+                   break;
+                   case 4 : printf("\n postorder traversal is |n");
+                   postorder(root);
+                   break;
+                   default:exit(0);
+
+               }
+    }
+    return(0);
 }
