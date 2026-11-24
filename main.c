@@ -1,92 +1,71 @@
 #include <stdio.h>
 #include <stdlib.h>
-struct node{
-int data;
-struct node*left;
-struct node*right;
-};
-typedef struct node * NODE;
-void preorder(NODE root)
-{
-    if(root!=NULL)
-    {
-        printf("%d\t",root->data);
-        preorder(root->left);
-        preorder(root->right);
-    }
-}
-void inorder(NODE root)
-{
 
-    if(root!=NULL)
-    {
-        inorder(root->left);
-        printf("%d\t",root->data);
-    }
-}
-void postorder(NODE root)
+void heapify(int a[10],int n)
 {
-    if(root!=NULL)
+    int i,k,v,j,flag=0;
+    for(i=n/2;i>=1;i--)
     {
-    postorder(root->left);
-    postorder(root->right);
-    printf("%d\t",root->data);
+        k=i;
+        v=a[k];
+        while(!flag&&2*k<=n)
+        {
+            j=2*k;
+            if(j<n)
+            {
+                if(a[j]<a[j+1])
+                    j=j+1;
+
+            }
+            if(v>a[j])
+                flag=1;
+            else
+            {
+                a[k]=a[j];
+                k=j;
+            }
+        }
+        a[k]=v;
+        flag=0;
     }
-}
-NODE create BST (NODE root,int item)
-{
-    NODE temp,prev,cur;
-    temp=(NODE)malloc(size of(dtruct node));
-    temp->data=item;
-    temp->left=NULL;
-    temp->right=NULL;
-    if(root==NULL)
-        return temp;
-    prev=NULL;
-    cur=root;
-    while(cur!=NULL)
-    {
-        prev=cur;
-        if(item<char->data)
-            cur=cur->left;
-        elsecur=cur->right;
-    }
-    if(item<prev->data)
-        prev->left=temp;
-    elseprev->right=temp;
-    retrun root;
 }
 int main()
 {
-    NODE root=NULL;
-    int ch,item;
+    int n,a[10],i,ch;
     for(;;)
     {
-        printf("\n1.insert");
-        printf("\n2.preorder");
-        printf("\n3.postorder");
-        printf("\n4.inorder");
-        printf("\n5.exit");
-        printf("\n Read choice:);
-               scanf("%d",&ch);
-               switch(ch)
-               {
-                   case 1 : printf("\nRead element to be inserted");
-                   scanf("%d",&item);
-                   root=create BST(root,item);
+        printf("\n 1.create heap");
+        printf("\n 2.extract max");
+        printf("\n 3.exit");
+        printf("\n read choice:");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:printf("\n read number of elements:");
+                   scanf("%d",&n);
+                   printf("\n read elements\n");
+                   for(i=1;i<=n;i++);
+                     scanf("%d",&a[i]);
+                   heapify(a,n);
+                   printf("\n elements after constructing heap\n");
+                   for(i=1;i<=n;i++)
+                    printf("%d\t",a[i]);
                    break;
-                   case 2 : printf("\n preorder traversal is:");
-                   preorder(root);
-                   break;
-                   case 3 : printf("\n inorder traversal is:");
-                   inorder(root);
-                   break;
-                   case 4 : printf("\n postorder traversal is |n");
-                   postorder(root);
-                   break;
-                   default:exit(0);
-
-               }
+            case 2:if(n>=1)
+                    {
+                        printf("\n element deleted id %d",a[1]);
+                        a[1]=a[n];
+                        n=n-1;
+                        heapify(a,n);
+                        printf("\n heap after deletion");
+                        for(i=1;i<=n;i++)
+                            printf("%d\t",a[i]);
+                    }
+                    else
+                        printf("\n no elements to delete");
+                    break;
+           default:exit(0);
+        }
     }
-    return(0);
+return 0;
 }
